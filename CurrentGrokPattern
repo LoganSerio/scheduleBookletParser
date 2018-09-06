@@ -1,0 +1,13 @@
+Custom:
+
+NOTE %{DATA:dept}%{SPACE}%{INT:courseNum}
+THREESTARS %{SPACE}\*\*\*%{SPACE}%{NOTE:note}%{SPACE}\*\*\*
+CLASSTIME %{INT:startTime}-%{INT:endTime}N?
+HALL %{WORD}\s?%{WORD}?
+DAYS M?\s?T?\s?W?\s?(TH)?\s?F?\s?
+COURSENORMAL (%{SPACE}%{INT:available}|\(F\))%{SPACE}%{INT:enrollCount}%{SPACE}%{NOTSPACE:dept}%{SPACE}%{INT:courseNum}%{SPACE}%{INT:sectionNum}%{SPACE}%{DATA:courseName}%{SPACE}%{BASE10NUM:length}%{SPACE}%{CLASSTIME:classTime}%{SPACE}%{DAYS:days}%{SPACE}%{NOTSPACE:roomNum}%{SPACE}%{HALL:hall}%{SPACE}%{GREEDYDATA:prof}
+
+Pattern:
+
+%{COURSENORMAL:coursenorm}
+%{THREESTARS} 
