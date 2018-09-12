@@ -1,13 +1,16 @@
 Custom:
 
-NOTE %{DATA:dept}%{SPACE}%{INT:courseNum}
-THREESTARS %{SPACE}\*\*\*%{SPACE}%{NOTE:note}%{SPACE}\*\*\*
+LAB LAB%{GREEDYDATA}
+IGNORE %{SPACE}?(ENRL.*|AVL.*|-+|\*\*.*|%{LAB})
+NOTE %{GREEDYDATA:note}
+COURSENUM %{INT:courseNum}%{SPACE}(LAB)?(RES)?
+NOTEINFO %{DATA:noteInfoDept}%{SPACE}%{INT:noteInfoCourseNum}
+THREESTARS %{SPACE}\*\*\*%{SPACE}%{NOTEINFO:noteInfo}%{SPACE}\*\*\*
 CLASSTIME %{INT:startTime}-%{INT:endTime}N?
 HALL %{WORD}\s?%{WORD}?
-DAYS M?\s?T?\s?W?\s?(TH)?\s?F?\s?
-COURSENORMAL (%{SPACE}%{INT:available}|\(F\))%{SPACE}%{INT:enrollCount}%{SPACE}%{NOTSPACE:dept}%{SPACE}%{INT:courseNum}%{SPACE}%{INT:sectionNum}%{SPACE}%{DATA:courseName}%{SPACE}%{BASE10NUM:length}%{SPACE}%{CLASSTIME:classTime}%{SPACE}%{DAYS:days}%{SPACE}%{NOTSPACE:roomNum}%{SPACE}%{HALL:hall}%{SPACE}%{GREEDYDATA:prof}
+DAYS M?\s?T?\s?W?\s?(TH|T)?\s?F?\s?
+COURSENORMAL (%{SPACE}%{INT:available}|\(F\))%{SPACE}%{INT:enrollCount}%{SPACE}%{NOTSPACE:dept}%{SPACE}%{COURSENUM:courseNum}%{SPACE}%{INT:sectionNum}%{SPACE}%{DATA:courseName}%{SPACE}%{BASE10NUM:length}%{SPACE}%{CLASSTIME:classTime}%{SPACE}%{DAYS:days}%{SPACE}%{NOTSPACE:roomNum}%{SPACE}%{HALL:hall}%{SPACE}%{GREEDYDATA:profAndSpecialEnrollment}
 
 Pattern:
 
-%{COURSENORMAL:coursenorm}
-%{THREESTARS} 
+(%{THREESTARS}%{SPACE}%{NOTE}|%{COURSENORMAL:courseNormal}|%{IGNORE:ignore})
